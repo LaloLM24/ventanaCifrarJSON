@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class archivoJSON
     private     Map<String,Object> map;
     private     int tamanio;
     private     String [] llave;
-    private     String [] valores;    
+    private     Object [] valores;    
     private     String json ;
     
     
@@ -52,14 +53,33 @@ public class archivoJSON
     
     public String [] clave ()
     {
-        llave = (String[]) map.values().toArray();
+       
+        llave =  map.keySet().toArray(new String[map.size()]);
         return llave;
+        
+        /*
+        int index = 0;
+        for (Map.Entry<String, Object> mapEntry : map.entrySet()) 
+        {
+                llave[index] = mapEntry.getKey();
+                System.out.println(llave[index]);
+        }
+        return llave;*/
     }
     
-    public String [] valores()
+    public Object [] valores()
     {
-        valores = (String[]) map.values().toArray();
+        valores =   map.values().toArray();
+        /*    
+        int index = 1;
+            for (Map.Entry<String, Object> mapEntry : map.entrySet()) 
+            {
+                valores[index] = mapEntry.getValue();
+                index++;             
+            }
+*/
         return valores;
     }
+
     
 }

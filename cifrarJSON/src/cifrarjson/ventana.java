@@ -4,10 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
+import java.util.ArrayList;
+
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JCheckBox;
+
 
 
 /**
@@ -23,7 +29,11 @@ public class ventana extends javax.swing.JFrame {
      private   BufferedReader archivoCompleto = null;
      private   int tamanio = 0;
      private   String [] llave;
-     private   String [] valor;
+     private   Object [] valor;
+     private   String [] valorString;
+     
+     private   List<JCheckBox> caja;
+     private   int indice;
 
     public ventana() throws FileNotFoundException, IOException 
     {
@@ -34,11 +44,27 @@ public class ventana extends javax.swing.JFrame {
         textoJson.setText(leerContenido);
         System.out.println(rutaFile);
         ruta = rutaFile.toString();
+        
         archivoJSON json = new archivoJSON(ruta,leerArchivo);
         json.cargarJson();
         tamanio = json.obtenerTamanio();
         llave = json.clave();
         valor = json.valores();
+        System.out.println(tamanio);
+        
+        caja = new ArrayList<JCheckBox>();
+        indice = 0;
+        
+        for(int a = 0; a<tamanio; a++)
+        {
+            //JCheckBox checkCaja = new JCheckBox ("Caja " + indice);          
+            JCheckBox checkCaja = new JCheckBox (llave[indice]);
+            panel.add(checkCaja);
+            caja.add(checkCaja);
+            indice ++;
+            panel.updateUI();
+        
+        }
                 
     }
 
@@ -92,7 +118,7 @@ public class ventana extends javax.swing.JFrame {
         scrollJsonCargado = new javax.swing.JScrollPane();
         textoJson = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel3 = new javax.swing.JPanel();
+        panel = new javax.swing.JPanel();
         botonCifrar = new javax.swing.JButton();
         cargarNuevo = new javax.swing.JButton();
         panelPrincipal2 = new javax.swing.JPanel();
@@ -111,18 +137,8 @@ public class ventana extends javax.swing.JFrame {
         textoJson.setRows(5);
         scrollJsonCargado.setViewportView(textoJson);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 325, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
-        );
-
-        jScrollPane2.setViewportView(jPanel3);
+        panel.setLayout(new java.awt.GridLayout(0, 1));
+        jScrollPane2.setViewportView(panel);
 
         botonCifrar.setText("Cifrar");
         botonCifrar.addActionListener(new java.awt.event.ActionListener() {
@@ -289,9 +305,9 @@ public class ventana extends javax.swing.JFrame {
     private javax.swing.JButton botonCifrar;
     private javax.swing.JButton cargarNuevo;
     private javax.swing.JButton guardar;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nombre;
+    private javax.swing.JPanel panel;
     private javax.swing.JPanel panelPrincipal1;
     private javax.swing.JPanel panelPrincipal2;
     private javax.swing.JTabbedPane pestanias;
