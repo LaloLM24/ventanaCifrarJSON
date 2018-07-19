@@ -25,8 +25,8 @@ public class RSACifrado
         e = keygen.funcionE();
         d = keygen.funcionD();
         
-        System.out.println("Este es n \n " + n);
-        System.out.println("Este es e \n " + e);
+        // System.out.println("Este es n \n " + n);
+        // System.out.println("Este es e \n " + e);
 
         byte[] temp = new byte[1];
         byte[] digitos = mensaje.getBytes();
@@ -43,10 +43,10 @@ public class RSACifrado
         {
             encriptado[i] = bigdigitos[i].modPow(e,n);
             resultado = resultado + encriptado[i].toString() + "****";
-            System.out.println(encriptado[i]);    
+            //System.out.println(encriptado[i]);    
         }
         
-        System.out.println("El resultado es:\n" + resultado);
+        //System.out.println("El resultado es:\n" + resultado);
         return resultado;
     }
     

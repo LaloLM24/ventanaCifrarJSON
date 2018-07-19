@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +22,7 @@ import javax.swing.JCheckBox;
  * @author Eduardo López Melo
  */
 public class ventana extends javax.swing.JFrame {
+    private    String nombreArchivo;
      private   File rutaFile = null;
      private   String ruta = "";
      private   String rutaString = "";
@@ -31,22 +34,24 @@ public class ventana extends javax.swing.JFrame {
      private   String [] llave;
      private   Object [] valor;
      private   String [] valorString;
-     private   String [] Cifrado;
-     
+     private   String [] cifrado;     
+
      private   List<JCheckBox> caja;
      private   int indice;
+     private   archivoJSON json = null;
 
     public ventana() throws FileNotFoundException, IOException 
     {
-        RSACifrado rsa = new RSACifrado();
+        
         
         cargarArchivo();
         initComponents();
         textoJson.setText(leerContenido);
         System.out.println(rutaFile);
         ruta = rutaFile.toString();
+        nombreArchivo = rutaFile.getName();
         
-        archivoJSON json = new archivoJSON(ruta,leerArchivo);
+         json = new archivoJSON(ruta,leerArchivo);
         json.cargarJson();
         tamanio = json.obtenerTamanio();
         llave = json.clave();
@@ -73,8 +78,49 @@ public class ventana extends javax.swing.JFrame {
             valorString[b] = String.valueOf(valor[b]);
             System.out.println(valorString[b]);
         }
+        
                 
     }
+    /*
+    public void ventana() throws IOException
+    {
+        textoJson.setText(null);
+        cargarArchivo();
+        
+        textoJson.setText(leerContenido);
+        System.out.println(rutaFile);
+        ruta = rutaFile.toString();
+        
+        json = new archivoJSON(ruta,leerArchivo);
+        json.cargarJson();
+        tamanio = json.obtenerTamanio();
+        llave = json.clave();
+        valor = json.valores();
+        System.out.println(tamanio);
+        
+        caja = new ArrayList<JCheckBox>();
+        indice = 0;
+        
+
+        for(int a = 0; a<tamanio; a++)
+        {
+            JCheckBox checkCaja = new JCheckBox ("Caja " + indice);          
+            checkCaja = new JCheckBox (llave[indice]);
+            panel.add(checkCaja);
+            caja.add(checkCaja);
+            indice ++;
+            panel.updateUI();
+        }
+        
+        valorString = new String[valor.length];
+        for(int b = 0; b < valor.length; b++)
+        {
+            valorString[b] = String.valueOf(valor[b]);
+            System.out.println(valorString[b]);
+        }
+        
+    }
+    */
 
     private void cargarArchivo() throws FileNotFoundException, IOException
     {
@@ -200,6 +246,11 @@ public class ventana extends javax.swing.JFrame {
         scrollResultado.setViewportView(resultado);
 
         guardar.setText("Guardar");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelPrincipal2Layout = new javax.swing.GroupLayout(panelPrincipal2);
         panelPrincipal2.setLayout(panelPrincipal2Layout);
@@ -249,27 +300,64 @@ public class ventana extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCifrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCifrarActionPerformed
-      //  textoJson.append(rutaString);
-
+        cifrado = new String[tamanio];
+        String estructura = "{ \n";
+        int contador = 0;
+        for(JCheckBox checkCaja: caja )
+      {
+          if(checkCaja.isSelected())
+          {
+              RSACifrado rsa = new RSACifrado();
+              cifrado[contador] = rsa.resultado(valorString[contador]);
+              estructura = estructura + "\""+ llave[contador] + "\"" + ":" + "\"" + cifrado[contador] + "\",\n";
+              System.out.println(cifrado[contador]);
+          }
+          else
+          {
+              cifrado[contador] = valorString[contador];
+              estructura = estructura + "\""+ llave[contador] + "\"" + ":" + "\"" + cifrado[contador] + "\",\n" ;
+              System.out.println(cifrado[contador]);
+          }
+          contador ++;
+      }
+        estructura = estructura.substring(0, estructura.length()-2);
+      estructura = estructura + "\n}";
+      System.out.println(estructura);
+      resultado.setText(estructura);
     }//GEN-LAST:event_botonCifrarActionPerformed
 
     private void cargarNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarNuevoActionPerformed
-        textoJson.setText("");
-        ruta = null;
-        rutaString = "";
-        leerContenido = "";
-        archivo = null;
-        leerArchivo = null;
-        archivoCompleto = null;
+        File rutaFile = null;
+        String ruta = null;
+        String rutaString = null;
+        String leerContenido = null;
+        JFileChooser archivo = null;
+        FileReader leerArchivo = null;
+        BufferedReader archivoCompleto = null;
+        int tamanio = 0;
+        String [] llave = null;
+        Object [] valor = null;
+        String [] valorString = null;
+        String [] cifrado = null;
         
+        archivoJSON json = null;
+        
+        List<JCheckBox> caja = null;
+        int indice = 0;
+        /*
         try {
-             cargarArchivo();
+            ventana();
          } catch (IOException ex) {
              Logger.getLogger(ventana.class.getName()).log(Level.SEVERE, null, ex);
-         }
+         }*/
         
-        textoJson.setText(leerContenido);
+       
     }//GEN-LAST:event_cargarNuevoActionPerformed
+
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_guardarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
