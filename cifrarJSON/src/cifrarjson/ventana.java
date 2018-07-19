@@ -31,6 +31,7 @@ public class ventana extends javax.swing.JFrame {
      private   String [] llave;
      private   Object [] valor;
      private   String [] valorString;
+     private   String [] Cifrado;
      
      private   List<JCheckBox> caja;
      private   int indice;
@@ -55,6 +56,7 @@ public class ventana extends javax.swing.JFrame {
         caja = new ArrayList<JCheckBox>();
         indice = 0;
         
+
         for(int a = 0; a<tamanio; a++)
         {
             //JCheckBox checkCaja = new JCheckBox ("Caja " + indice);          
@@ -63,7 +65,13 @@ public class ventana extends javax.swing.JFrame {
             caja.add(checkCaja);
             indice ++;
             panel.updateUI();
+        }
         
+        valorString = new String[valor.length];
+        for(int b = 0; b < valor.length; b++)
+        {
+            valorString[b] = String.valueOf(valor[b]);
+            System.out.println(valorString[b]);
         }
                 
     }
