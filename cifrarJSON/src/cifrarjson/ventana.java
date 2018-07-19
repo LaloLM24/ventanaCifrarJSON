@@ -14,20 +14,31 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author Eduardo López Melo
  */
 public class ventana extends javax.swing.JFrame {
-     private   File ruta = null;
+     private   File rutaFile = null;
+     private   String ruta = "";
      private   String rutaString = "";
      private   String leerContenido = "";
      private   JFileChooser archivo = null;
      private   FileReader leerArchivo = null;
      private   BufferedReader archivoCompleto = null;
+     private   int tamanio = 0;
+     private   String [] llave;
+     private   String [] valor;
 
     public ventana() throws FileNotFoundException, IOException 
     {
+        RSACifrado rsa = new RSACifrado();
         
         cargarArchivo();
         initComponents();
         textoJson.setText(leerContenido);
-
+        System.out.println(rutaFile);
+        ruta = rutaFile.toString();
+        archivoJSON json = new archivoJSON(ruta,leerArchivo);
+        json.cargarJson();
+        tamanio = json.obtenerTamanio();
+        llave = json.clave();
+        valor = json.valores();
                 
     }
 
@@ -46,11 +57,11 @@ public class ventana extends javax.swing.JFrame {
         }
         else if (seleccion == JFileChooser.APPROVE_OPTION)
         {
-            ruta = archivo.getSelectedFile();
+            rutaFile = archivo.getSelectedFile();
             rutaString = ruta.toString();
             System.out.println(rutaString);
             
-            leerArchivo = new FileReader(ruta);
+            leerArchivo = new FileReader(rutaFile);
             System.out.println(leerArchivo);
             
             archivoCompleto = new BufferedReader(leerArchivo);
@@ -68,6 +79,8 @@ public class ventana extends javax.swing.JFrame {
 
 
     }
+    
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
