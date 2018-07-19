@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 
 
 
@@ -30,6 +31,11 @@ public class ventana extends javax.swing.JFrame {
      private   JFileChooser archivo = null;
      private   FileReader leerArchivo = null;
      private   BufferedReader archivoCompleto = null;
+     private   String estructura = "{ \n";
+     
+     private   JFileChooser guardarEnArchivo;
+     private   String nombreGuardarArchivo;
+     
      private   int tamanio = 0;
      private   String [] llave;
      private   Object [] valor;
@@ -81,46 +87,7 @@ public class ventana extends javax.swing.JFrame {
         
                 
     }
-    /*
-    public void ventana() throws IOException
-    {
-        textoJson.setText(null);
-        cargarArchivo();
-        
-        textoJson.setText(leerContenido);
-        System.out.println(rutaFile);
-        ruta = rutaFile.toString();
-        
-        json = new archivoJSON(ruta,leerArchivo);
-        json.cargarJson();
-        tamanio = json.obtenerTamanio();
-        llave = json.clave();
-        valor = json.valores();
-        System.out.println(tamanio);
-        
-        caja = new ArrayList<JCheckBox>();
-        indice = 0;
-        
-
-        for(int a = 0; a<tamanio; a++)
-        {
-            JCheckBox checkCaja = new JCheckBox ("Caja " + indice);          
-            checkCaja = new JCheckBox (llave[indice]);
-            panel.add(checkCaja);
-            caja.add(checkCaja);
-            indice ++;
-            panel.updateUI();
-        }
-        
-        valorString = new String[valor.length];
-        for(int b = 0; b < valor.length; b++)
-        {
-            valorString[b] = String.valueOf(valor[b]);
-            System.out.println(valorString[b]);
-        }
-        
-    }
-    */
+   
 
     private void cargarArchivo() throws FileNotFoundException, IOException
     {
@@ -175,10 +142,12 @@ public class ventana extends javax.swing.JFrame {
         panel = new javax.swing.JPanel();
         botonCifrar = new javax.swing.JButton();
         cargarNuevo = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         panelPrincipal2 = new javax.swing.JPanel();
         scrollResultado = new javax.swing.JScrollPane();
         resultado = new javax.swing.JTextArea();
         guardar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -208,6 +177,8 @@ public class ventana extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Seleccione los campos que usted desea cifrar y de clic en el botón cifrar, y después de clic en la pestaña Resultado.Si desea cargar otro archivo, de clic en el botón Cargar Nuevo");
+
         javax.swing.GroupLayout panelPrincipal1Layout = new javax.swing.GroupLayout(panelPrincipal1);
         panelPrincipal1.setLayout(panelPrincipal1Layout);
         panelPrincipal1Layout.setHorizontalGroup(
@@ -218,16 +189,21 @@ public class ventana extends javax.swing.JFrame {
                     .addGroup(panelPrincipal1Layout.createSequentialGroup()
                         .addComponent(scrollJsonCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2))
                     .addGroup(panelPrincipal1Layout.createSequentialGroup()
                         .addComponent(cargarNuevo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonCifrar))))
+                        .addComponent(botonCifrar))
+                    .addGroup(panelPrincipal1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelPrincipal1Layout.setVerticalGroup(
             panelPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrincipal1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(scrollJsonCargado)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
@@ -235,7 +211,7 @@ public class ventana extends javax.swing.JFrame {
                 .addGroup(panelPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCifrar)
                     .addComponent(cargarNuevo))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pestanias.addTab("Cifrar", panelPrincipal1);
@@ -252,6 +228,8 @@ public class ventana extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Aquí se muestra el resultado del cifrado, si usted desea guardar el resultado de clic en el botón Guardar, si no regrese a la pestaña Cifrar");
+
         javax.swing.GroupLayout panelPrincipal2Layout = new javax.swing.GroupLayout(panelPrincipal2);
         panelPrincipal2.setLayout(panelPrincipal2Layout);
         panelPrincipal2Layout.setHorizontalGroup(
@@ -259,17 +237,23 @@ public class ventana extends javax.swing.JFrame {
             .addGroup(panelPrincipal2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelPrincipal2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollResultado, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
+                    .addComponent(scrollResultado, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipal2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(guardar)))
+                        .addComponent(guardar))
+                    .addGroup(panelPrincipal2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelPrincipal2Layout.setVerticalGroup(
             panelPrincipal2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrincipal2Layout.createSequentialGroup()
-                .addComponent(scrollResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(scrollResultado, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
                 .addComponent(guardar))
         );
 
@@ -293,7 +277,7 @@ public class ventana extends javax.swing.JFrame {
                 .addComponent(nombre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pestanias)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -301,7 +285,7 @@ public class ventana extends javax.swing.JFrame {
 
     private void botonCifrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCifrarActionPerformed
         cifrado = new String[tamanio];
-        String estructura = "{ \n";
+        
         int contador = 0;
         for(JCheckBox checkCaja: caja )
       {
@@ -327,35 +311,37 @@ public class ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCifrarActionPerformed
 
     private void cargarNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarNuevoActionPerformed
-        File rutaFile = null;
-        String ruta = null;
-        String rutaString = null;
-        String leerContenido = null;
-        JFileChooser archivo = null;
-        FileReader leerArchivo = null;
-        BufferedReader archivoCompleto = null;
-        int tamanio = 0;
-        String [] llave = null;
-        Object [] valor = null;
-        String [] valorString = null;
-        String [] cifrado = null;
         
-        archivoJSON json = null;
         
-        List<JCheckBox> caja = null;
-        int indice = 0;
-        /*
+
         try {
-            ventana();
-         } catch (IOException ex) {
-             Logger.getLogger(ventana.class.getName()).log(Level.SEVERE, null, ex);
-         }*/
+            new ventana().setVisible(true);
+        
+        } catch (IOException ex) {
+            Logger.getLogger(ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
        
     }//GEN-LAST:event_cargarNuevoActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        // TODO add your handling code here:
+         nombreGuardarArchivo = "";
+         guardarEnArchivo = new JFileChooser();
+         guardarEnArchivo.showSaveDialog(this);
+         File guarda = guardarEnArchivo.getSelectedFile();
+         
+         if (guarda != null)
+         {
+             try {
+                 FileWriter save = new FileWriter(guarda+".json");
+                 save.write(estructura);
+                 save.close();
+                 JOptionPane.showConfirmDialog(null, "El Archivo fue guardado con éxito", "Guardado", JOptionPane.DEFAULT_OPTION);
+             } catch (IOException ex) {
+                 JOptionPane.showMessageDialog(null,"El archivo no se guardó" + ex, "Error" , JOptionPane.ERROR_MESSAGE) ;
+             }
+         }
+         
         
     }//GEN-LAST:event_guardarActionPerformed
 
@@ -401,6 +387,8 @@ public class ventana extends javax.swing.JFrame {
     private javax.swing.JButton botonCifrar;
     private javax.swing.JButton cargarNuevo;
     private javax.swing.JButton guardar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nombre;
     private javax.swing.JPanel panel;
